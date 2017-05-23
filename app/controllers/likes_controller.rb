@@ -70,5 +70,4 @@ class LikesController < ApplicationController
 
     render("likes/my_likes.html.erb")
   end
-
 end
