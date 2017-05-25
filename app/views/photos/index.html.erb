@@ -20,7 +20,7 @@
 <div class="panel panel-default">
     <div class="panel-heading"></div>
     <div class="panel-body">
-    <table class="table table-striped table-hover">
+    <!-- <table class="table table-striped table-hover"> -->
       <!-- <tr>
         <th>Caption</th>
         <th>Image</th>
@@ -29,13 +29,12 @@
         <th>Actions</th>
       </tr> -->
       <% @photos.each do |photo| %>
-      <tr>
-        <td><%= photo.caption %></td>
-        <td><%= photo.image %></td>
-        <td><%= photo.user_id %></td>
-        <td>
-          <form action="/create_like" method="post">
-            <input name="authenticity_token" type="hidden" value="NTXW/OKFqchlRK8queBdR2jjS0aDQa3xOdaWYeAn/BIDColQ+Ga9RH3y2NRkG32johriKu5a9A7qGZByWUSVNw==">
+      <h2><%= photo.user.username %></h2>
+      <p><img src="<%= photo.image %>" width="500"></p>
+      <p><<%= photo.caption %><p>
+      <ul>
+        <form action="/create_like" method="post">
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
             <input type="hidden" name="photo_id" value="photo.id">
             <input type="hidden" name="user_id" value="current_user.id">
             <button class="btn btn-link">
@@ -44,16 +43,37 @@
           </form>
           <a href="/delete_like/<%= photo.id %>" class="btn btn-link">
             <i class="fa fa-heart"></i></a>
-        </td>
-        <td>
+        </ul>
+        <ul>
+          <form action="/create_comment" method="post">
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="photo_id" value="photo.id">
+          <input type="hidden" name="user_id" value="current_user.id">
+          <!-- Label and input for body -->
+          <div class="form-group">
+            <label for="body" class="sr-only">
+              Body
+            </label>
+          <div class="input-group">
+            <input type="text" id="body" name="body" class="form-control" placeholder="Add a comment..." required>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                  <i class="fa fa-commenting-o"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          </form>
+        </ul>
+        <ul>
           <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
           <% if photo.user_id == current_user.id %>
           <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
           <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
           <% end %>
-        </td>
-      </tr>
+        </ul>
       <% end %>
-    </table>
+    <!-- </table> -->
   </div>
 </div>
